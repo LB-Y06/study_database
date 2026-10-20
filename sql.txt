@@ -1,0 +1,113 @@
+CREATE DATABASE OLPMS--创建数据库
+
+CREATE TABLE course (
+    cour_id INT IDENTITY(1000,1) PRIMARY KEY,         -- 课程ID
+    cour_name NVARCHAR(100) NOT NULL, -- 课程名称
+    cour_hour INT NOT NULL,          -- 课程时长
+    cour_kind NVARCHAR(50) NOT NULL   -- 课程类型
+);
+
+CREATE TABLE courseSelection (
+    stu_id INT,
+    cour_id INT,
+    degree_of_completion NVARCHER(50), 
+    grades INT,                -- 等级，例如 'A', 'B', 'C' 等
+    score INT,                -- 分数
+    PRIMARY KEY (stu_id, cour_id)  -- 学生ID和课程ID联合主键
+);
+
+CREATE TABLE lectures (
+    tutor_id INT,
+    cour_id INT,
+    avg_score DECIMAL(5, 2),           -- 平均分
+    PRIMARY KEY (tutor_id, cour_id)   -- 教师ID和课程ID联合主键
+);
+
+CREATE TABLE student (
+    stu_id INT IDENTITY(10000,1)  PRIMARY KEY,            -- 学生ID
+    stu_name NVARCHAR(100) NOT NULL,   -- 学生姓名
+    stu_gender CHAR(1) NOT NULL,       -- 学生性别
+    stu_integral INT NOT NULL DEFAULT 0 -- 学生积分
+);
+
+CREATE TABLE teacher (
+    tutor_id INT IDENTITY(100000,1) PRIMARY KEY,          -- 教师ID
+    tutor_name NVARCHAR(100) NOT NULL, -- 教师姓名
+    tutor_gender CHAR(1) NOT NULL,     -- 教师性别
+    tutor_mail NVARCHAR(100)            -- 教师邮箱
+);
+
+
+USE [OLPMS]
+GO
+/****** Object:  Trigger [dbo].[trg_DeleteStudent_CascadeDelete]    Script Date: 2024/12/28 11:40:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER [dbo].[trg_DeleteStudent_CascadeDelete]
+ON [OLPMS].[dbo].[student]
+AFTER DELETE
+AS
+BEGIN
+    -- 删除 courseSelection 表中与已删除学生相关联的所有行
+    DELETE FROM [OLPMS].[dbo].[courseSelection]
+    WHERE stu_id IN (SELECT stu_id FROM deleted);
+END;
+
+USE [OLPMS]
+GO
+/****** Object:  Trigger [dbo].[trg_DeleteTeacher_CascadeDelete]    Script Date: 2024/12/28 11:41:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER [dbo].[trg_DeleteTeacher_CascadeDelete]
+ON [OLPMS].[dbo].[teacher]
+AFTER DELETE
+AS
+BEGIN
+
+    DELETE FROM [OLPMS].[dbo].[lectures]
+    WHERE tutor_id IN (SELECT tutor_id FROM deleted);
+
+
+    DELETE FROM [OLPMS].[dbo].[course]
+    WHERE cour_id IN (SELECT cour_id FROM [OLPMS].[dbo].[lectures] WHERE tutor_id IN (SELECT tutor_id FROM deleted) AND NOT EXISTS (SELECT 1 FROM [OLPMS].[dbo].[lectures] l2 WHERE l2.cour_id = course.cour_id AND l2.tutor_id NOT IN (SELECT tutor_id FROM deleted)));
+
+
+END;
+
+
+
+USE [OLPMS]
+GO
+/****** Object:  Trigger [dbo].[trg_UpdateStudentIntegral]    Script Date: 2024/12/28 11:42:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER [dbo].[trg_UpdateStudentIntegral]
+ON [OLPMS].[dbo].[courseSelection]
+AFTER UPDATE
+AS
+BEGIN
+    -- 确保只有在 degree_of_completion 变为 '100%' 时才触发
+    IF UPDATE(degree_of_completion)
+    BEGIN
+        -- 插入临时表以存储受影响的记录
+        WITH UpdatedRecords AS (
+            SELECT i.stu_id, i.cour_id, i.degree_of_completion
+            FROM inserted i
+            JOIN deleted d ON i.stu_id = d.stu_id AND i.cour_id = d.cour_id
+            WHERE i.degree_of_completion = '100%' AND d.degree_of_completion <> '100%'
+        )
+        -- 更新学生积分
+        UPDATE s
+        SET s.stu_integral = s.stu_integral + c.cour_hour
+        FROM [OLPMS].[dbo].[student] s
+        JOIN UpdatedRecords ur ON s.stu_id = ur.stu_id
+        JOIN [OLPMS].[dbo].[course] c ON ur.cour_id = c.cour_id;
+    END
+END;
+
