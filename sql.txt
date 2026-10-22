@@ -1,4 +1,9 @@
-CREATE DATABASE OLPMS--创建数据库
+IF DB_ID(N'OLPMS') IS NULL
+    CREATE DATABASE OLPMS;
+GO
+
+USE [OLPMS];
+GO
 
 CREATE TABLE course (
     cour_id INT IDENTITY(1000,1) PRIMARY KEY,         -- 课程ID
@@ -10,7 +15,7 @@ CREATE TABLE course (
 CREATE TABLE courseSelection (
     stu_id INT,
     cour_id INT,
-    degree_of_completion NVARCHER(50), 
+    degree_of_completion NVARCHAR(50),
     grades INT,                -- 等级，例如 'A', 'B', 'C' 等
     score INT,                -- 分数
     PRIMARY KEY (stu_id, cour_id)  -- 学生ID和课程ID联合主键

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">CampusFlow learning management system</title>
+  <desc id="desc">A relational education data banner with course, teacher, and student nodes.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffaf0"/>
+      <stop offset=".55" stop-color="#eff8ff"/>
+      <stop offset="1" stop-color="#dff4f3"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#0f9f8f"/>
+    </linearGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#1e3a5f" fill-opacity=".09"/>
+    </pattern>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#17335c" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="320" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="320" rx="24" fill="url(#dots)"/>
+  <path d="M740 0H1200V320H640C770 250 760 113 740 0Z" fill="#ffffff" fill-opacity=".42"/>
+  <circle cx="1086" cy="38" r="132" fill="#2563eb" fill-opacity=".055"/>
+  <circle cx="1072" cy="287" r="162" fill="#f59e0b" fill-opacity=".065"/>
+
+  <g transform="translate(72 60)">
+    <rect width="44" height="44" rx="13" fill="#0f766e"/>
+    <path d="M10 17l12-7 12 7-12 7-12-7zm5 11v8c5 4 9 5 14 0v-8" fill="none" stroke="#ecfeff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="62" y="17" fill="#0f766e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="14" letter-spacing="3">RELATIONAL LEARNING OPERATIONS</text>
+    <text x="0" y="98" fill="#102a43" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="56" font-weight="720" letter-spacing="-1.2">CampusFlow</text>
+    <text x="0" y="141" fill="#334e68" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="24">课程、教师、学生与选课数据的一体化桌面工作台</text>
+    <g transform="translate(0 176)" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="13" fill="#29465f">
+      <rect x="0" y="-18" width="105" height="30" rx="15" fill="#ffffff" stroke="#2563eb" stroke-opacity=".24"/>
+      <text x="17" y="2">TKINTER</text>
+      <rect x="117" y="-18" width="129" height="30" rx="15" fill="#ffffff" stroke="#2563eb" stroke-opacity=".24"/>
+      <text x="134" y="2">SQL SERVER</text>
+      <rect x="258" y="-18" width="122" height="30" rx="15" fill="#ffffff" stroke="#2563eb" stroke-opacity=".24"/>
+      <text x="275" y="2">MATPLOTLIB</text>
+    </g>
+  </g>
+
+  <g transform="translate(738 39)" filter="url(#shadow)">
+    <rect width="390" height="242" rx="22" fill="#ffffff" fill-opacity=".85" stroke="#0f766e" stroke-opacity=".12"/>
+    <g stroke="url(#line)" stroke-width="3" stroke-opacity=".55">
+      <path d="M195 62L91 132"/>
+      <path d="M195 62L299 132"/>
+      <path d="M91 132L195 203"/>
+      <path d="M299 132L195 203"/>
+    </g>
+    <g font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" text-anchor="middle">
+      <g transform="translate(195 61)">
+        <circle r="42" fill="#e0f2fe" stroke="#2563eb" stroke-width="2"/>
+        <text y="-1" fill="#1e3a8a" font-size="17" font-weight="700">COURSE</text>
+        <text y="19" fill="#64748b" font-size="11">课程</text>
+      </g>
+      <g transform="translate(91 133)">
+        <circle r="39" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+        <text y="-1" fill="#92400e" font-size="16" font-weight="700">TEACHER</text>
+        <text y="19" fill="#64748b" font-size="11">教师</text>
+      </g>
+      <g transform="translate(299 133)">
+        <circle r="39" fill="#ecfdf5" stroke="#0f9f8f" stroke-width="2"/>
+        <text y="-1" fill="#115e59" font-size="16" font-weight="700">STUDENT</text>
+        <text y="19" fill="#64748b" font-size="11">学生</text>
+      </g>
+      <g transform="translate(195 203)">
+        <rect x="-64" y="-22" width="128" height="44" rx="22" fill="#102a43"/>
+        <text y="5" fill="#f8fafc" font-size="14" font-weight="700">OLPMS DATABASE</text>
+      </g>
+    </g>
+  </g>
+</svg>

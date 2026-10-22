@@ -3,7 +3,6 @@ import tkinter as tk
 
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MultipleLocator
-import tree
 import add_teacher
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 

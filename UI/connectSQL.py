@@ -1,22 +1,31 @@
-# 导入 pyodbc 库，用于连接和操作多种数据库，包括 SQL Server
+"""SQL Server connection settings loaded from environment variables."""
+
+import os
+
 import pyodbc
 
-# 指定 SQL Server 实例的名称或 IP 地址
-server = 'LAPTOP-BN49AST2'
-# 指定要连接的数据库名称
-database = 'OLPMS'
-# 指定连接数据库的用户名
-username = 'sa'
-# 指定连接数据库的密码
-password = '12345678'#这里要输入数据库的密码！！！！
 
-# 构建连接字符串，包含了连接到数据库所需的所有信息
-connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+server = os.getenv("OLPMS_SERVER", "localhost")
+database = os.getenv("OLPMS_DATABASE", "OLPMS")
+username = os.getenv("OLPMS_USERNAME", "sa")
+password = os.getenv("OLPMS_PASSWORD", "")
+driver = os.getenv("OLPMS_DRIVER", "ODBC Driver 17 for SQL Server")
 
-# 使用 pyodbc 库的 connect 函数连接到 SQL Server 数据库
+if not password:
+    raise RuntimeError(
+        "Set OLPMS_PASSWORD before starting the application. "
+        "See README.md for the PowerShell example."
+    )
+
+connection_string = (
+    f"DRIVER={{{driver}}};"
+    f"SERVER={server};"
+    f"DATABASE={database};"
+    f"UID={username};"
+    f"PWD={password}"
+)
+
 connection = pyodbc.connect(connection_string)
-
-# 创建一个游标对象，用于执行 SQL 查询和操作数据库
 cursor = connection.cursor()
 
 
